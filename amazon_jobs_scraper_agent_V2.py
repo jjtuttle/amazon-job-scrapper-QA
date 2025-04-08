@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import selenium
+import os
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
@@ -11,21 +11,28 @@ from email.mime.text import MIMEText
 import sqlite3
 import schedule
 import threading
-import sys
 from collections import Counter
+import sys
 
 # Configuration
 chromedriver_path = "/usr/local/bin/chromedriver"
-# Email configuration
-sender_email = "james.j.tuttle@gmail.com" 
-sender_password = "fiiu kxlb losn aowr"  
-receiver_email = "james.j.tuttle@gmail.com"  
+# Email configuration - env variables
+sender_email = os.getenv("JOB_SCRAPER_EMAIL")
+sender_password = os.getenv("JOB_SCRAPER_PASSWORD")
+receiver_email = os.getenv("JOB_SCRAPER_RECEIVER")
+# Standard email configuration for gmail
 smtp_server = "smtp.gmail.com" 
 smtp_port = 587  # For Gmail TLS
 # Search terms
 search_terms = ["Quality Assurance Tech", "Quality Assurance Engineer", "QAT", "QAE", "Hardware"]
 # Cutoff date
 cutoff_date = datetime(2025, 4, 3)
+
+# Check if credentials are set
+if not all([sender_email, sender_password, receiver_email]):
+    print("Error: Missing environment variables (JOB_SCRAPER_EMAIL, JOB_SCRAPER_PASSWORD, JOB_SCRAPER_RECEIVER)")
+    sys.exit(1)
+
 
 # Initial database setup (run once in main thread)
 db_path = "/Users/jamestuttle/_Projects/tuttle/web_scraper/jobs.db"
@@ -206,3 +213,6 @@ agent.interactive_loop()
 
 # Cleanup
 agent.driver.quit()
+
+# to run:
+# python3 amazon_jobs_scraper_agent_V2.py
