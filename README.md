@@ -44,6 +44,7 @@ cd amazon-job-scraper
 export JOB_SCRAPER_EMAIL="your_email@gmail.com"
 export JOB_SCRAPER_PASSWORD="your_app_password"
 export JOB_SCRAPER_RECEIVER="recipient_email@example.com"
+export JOB_SCRAPER_DB_PATH="/path/to/your/jobs.db"  # Optional, defaults to "jobs.db" in current directory
 ```
 
 - For persistence, add to `~/.zshrc` (or equivalent) and run `source ~/.zshrc`.

@@ -16,6 +16,8 @@ import sys
 
 # Configuration
 chromedriver_path = "/usr/local/bin/chromedriver"
+#db path
+db_path = os.getenv("JOB_SCRAPER_DB_PATH", "jobs.db")
 # Email configuration - env variables
 sender_email = os.getenv("JOB_SCRAPER_EMAIL")
 sender_password = os.getenv("JOB_SCRAPER_PASSWORD")
@@ -24,7 +26,7 @@ receiver_email = os.getenv("JOB_SCRAPER_RECEIVER")
 smtp_server = "smtp.gmail.com" 
 smtp_port = 587  # For Gmail TLS
 # Search terms
-search_terms = ["Quality Assurance Tech", "Quality Assurance Engineer", "QAT", "QAE", "Hardware"]
+search_terms = ["Quality Assurance Tech", "Quality Assurance Engineer", "QAT", "QAE", "Support Engineer"]
 # Cutoff date
 cutoff_date = datetime(2025, 4, 3)
 
@@ -35,13 +37,13 @@ if not all([sender_email, sender_password, receiver_email]):
 
 
 # Initial database setup (run once in main thread)
-db_path = "/Users/jamestuttle/_Projects/tuttle/web_scraper/jobs.db"
 conn = sqlite3.connect(db_path)
 cursor = conn.cursor()
 cursor.execute('''CREATE TABLE IF NOT EXISTS jobs 
                   (title TEXT, date TEXT, url TEXT UNIQUE, sent INTEGER DEFAULT 0)''')
 conn.commit()
 conn.close()
+
 
 class JobScraperAgent:
     def __init__(self):
