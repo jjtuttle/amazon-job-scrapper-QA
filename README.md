@@ -18,7 +18,7 @@ This Python script automates job hunting on Amazon's external job search site (h
 - **Dependencies:** Install required Python libraries (see ).
 - **Email Account:** A sender email with an app-specific password (e.g., Gmail with 2FA enabled).
 
-## Installation
+## Installation - LOCALLY
 
 1. **Clone the Repository:**
 
