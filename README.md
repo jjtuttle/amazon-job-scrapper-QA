@@ -1,4 +1,5 @@
 ## Amazon External Job Scrapper - Quality Assurance Engineer/Tech
+### This is for LOCAL use
 
 This Python script automates job hunting on Amazon's external job search site (https://www.amazon.jobs/en/), targeting roles like "Quality Assurance Engineer" and "Quality Assurance Tech." It scrapes job listings hourly or on-demand, filters for new postings (based on a configurable cutoff date), stores results in a local SQLite database, and emails new jobs using your configured email settings. Ideal for engineers seeking QA-related opportunities at Amazon.
 
@@ -18,7 +19,7 @@ This Python script automates job hunting on Amazon's external job search site (h
 - **Dependencies:** Install required Python libraries (see ).
 - **Email Account:** A sender email with an app-specific password (e.g., Gmail with 2FA enabled).
 
-## Installation - LOCALLY
+## Installation - LOCAL
 
 1. **Clone the Repository:**
 
