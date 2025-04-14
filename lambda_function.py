@@ -15,7 +15,7 @@ import tempfile
 
 # AWS S3 setup
 s3 = boto3.client('s3')
-bucket_name = os.getenv("S3_BUCKET_NAME")  # Set in Lambda environment variables
+bucket_name = os.getenv("JOB_SCRAPER_S3_BUCKET_NAME")  # Set in Lambda environment variables
 db_key = "jobs.db"  # S3 object key for the database
 
 # Configuration from Lambda environment variables
@@ -56,6 +56,8 @@ def upload_db_to_s3(temp_db_path):
 
 
 def lambda_handler(event, context):
+    print("Lambda function started execution - JT")
+    
     # Temporary file for SQLite DB
     with tempfile.NamedTemporaryFile(suffix=".db", delete=False) as temp_db:
         temp_db_path = temp_db.name
@@ -63,12 +65,20 @@ def lambda_handler(event, context):
 
         # Set up ChromeDriver (assumed in /opt/ for Lambda layers or package)
         chrome_options = Options()
+        chrome_options.binary_location = "/opt/bin/headless-chromium"
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument("--disable-gpu")
-        service = Service(executable_path="/opt/chromedriver")  # Adjust if in package root
+        
+        os.environ["PATH"] += os.pathsep + "/opt/bin"
+
+        service = Service(executable_path="/opt/bin/chromedriver")
         driver = webdriver.Chrome(service=service, options=chrome_options)
+        
+        # Debug prints
+        print("Using chromedriver:", service.executable_path)
+        print("Using headless-chromium:", chrome_options.binary_location)
 
         try:
             # Scrape jobs
